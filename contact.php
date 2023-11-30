@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
                 <div class="col-xs-6 col-xs-offset-3">
                     <div class="form-wrap">
                         <h1>Contact</h1>
-                        <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
+                        <form role="form" action="" method="post" id="login-form" autocomplete="off">
                             <div class="form-group">
                                 <label for="email" class="sr-only">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" placeholder="Email">
