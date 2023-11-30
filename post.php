@@ -49,10 +49,10 @@
                     <p class="lead">
                         by <a href="index.php"><?php echo $post_author ?></a>
                     </p>
-                    <p class="">
-                        Views - <kbd><?php echo $post_view_count ?></kbd>
-                    </p>
                     <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
+                    <p class="label label-default">
+                        Views - <?php echo $post_view_count ?>
+                    </p>
                     <hr>
                     <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
                     <hr>

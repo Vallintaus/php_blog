@@ -1,3 +1,5 @@
+<?php include "modal.php"; ?>
+
 <?php
 if (isset($_POST['checkBoxArray'])) {
 
@@ -164,8 +166,7 @@ if (isset($_POST['checkBoxArray'])) {
                 echo "<td>$post_view_count</td>";
                 echo "<td>$post_date</td>";
                 echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
-                echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
-
+                echo "<td><a href='javascript:void(0)' class='delete-link' data-post-id='{$post_id}'>Delete modal</a></td>";
                 echo "</tr>";
             }
             ?>
@@ -179,11 +180,37 @@ if (isset($_POST['checkBoxArray'])) {
 if (isset($_GET['delete'])) {
     $id_to_delete = $_GET['delete'];
 
-    $query = "DELETE FROM posts WHERE post_id = {$id_to_delete}";
+    $query = "DELETE FROM posts WHERE post_id = ?";
 
-    $delete_query = mysqli_query($connection, $query);
+    $stmt = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($stmt, "i", $id_to_delete);
+    mysqli_stmt_execute($stmt);
 
-    header("Location:posts.php");
+    mysqli_stmt_close($stmt);
+
+
+    header("Location: posts.php");
+    exit();
 }
 
 ?>
+
+<script>
+    $(document).ready(function() {
+        $(".delete-link").on("click", function() {
+            let postId = $(this).data("post-id");
+            let deleteUrl = "posts.php?delete=" + postId;
+
+            // dynamic content
+            $("#myModal .modal-body").html("<h3>Are you sure you want to delete post " + postId + "?</h3>");
+            $("#myModal .modal-footer").html('<a href="' + deleteUrl + '" class="btn btn-danger modal_delete_link">Delete</a>' +
+                '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>');
+
+            $("#myModal").modal("show");
+        });
+
+        $("#myModal").on("click", ".modal_delete_link", function() {
+            window.location.href = $(this).attr("href");
+        });
+    });
+</script>

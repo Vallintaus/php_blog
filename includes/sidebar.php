@@ -16,24 +16,33 @@
         <!-- /.input-group -->
     </div>
 
-    <div class="well">
-        <h4>Login</h4>
-        <form action="includes/login.php" method="post">
-            <div class="input-group">
-                <?php
-                if (isset($_SESSION['login_message'])) {
-                    echo '<p>' . $_SESSION['login_message'] . '</p>';
-                    unset($_SESSION['login_message']); // Clear the message after displaying it
-                }
-                ?>
-                <input name="username" type="text" class="form-control" placeholder="Username">
-                <input name="password" type="password" class="form-control" placeholder="Password">
-                <button name="login" class="btn btn-primary" type="submit">Login</button>
-                </span>
-            </div>
-        </form> <!-- search form -->
-        <!-- /.input-group -->
-    </div>
+
+    <?php
+    if (!isset($_SESSION['username'])) {
+    ?>
+
+        <div class="well">
+            <h4>Login</h4>
+            <form action="includes/login.php" method="post">
+                <div class="input-group">
+                    <?php
+                    if (isset($_SESSION['login_message'])) {
+                        echo '<p>' . $_SESSION['login_message'] . '</p>';
+                        unset($_SESSION['login_message']); // Clear the message after displaying it
+                    }
+                    ?>
+                    <input name="username" type="text" class="form-control" placeholder="Username">
+                    <input name="password" type="password" class="form-control" placeholder="Password">
+                    <button name="login" class="btn btn-primary" type="submit">Login</button>
+                    </span>
+                </div>
+            </form> <!-- search form -->
+            <!-- /.input-group -->
+        </div>
+    <?php
+    }
+
+    ?>
 
 
 

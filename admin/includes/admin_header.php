@@ -51,6 +51,7 @@ if (isset($_SESSION['user_role'])) {
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
+    <script src="js/jquery.js"></script>
 
 
 

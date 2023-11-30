@@ -38,14 +38,13 @@ if (isset($_POST['submit'])) {
         $query .= "VALUES('{$username}', '{$email}', '{$password}', 'user', '', '', '')";
         $register_user_query = mysqli_query($connection, $query);
 
-        $message = "<h5 class='bg-success text-center '>User created</h5>";
-
+        $message = "<h4 class='alert alert-success'><strong>User created</strong></a></h4>";
 
         if (!$register_user_query) {
             die("QUERY FAILED" . mysqli_error($connection) . ' ' . mysqli_errno($connection));
         }
     } else {
-        $message = "<h5 class='bg-danger text-center '>Fields cannot be empty</h5>";
+        $message = "<h5 class='alert alert-danger'>Fields cannot be empty</h5>";
     }
 } else {
     $message = "";

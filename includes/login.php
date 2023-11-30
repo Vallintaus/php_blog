@@ -1,4 +1,5 @@
 <?php include "db.php"; ?>
+<?php include "../admin/functions.php"; ?>
 
 <?php session_start(); ?>
 
@@ -39,7 +40,7 @@ if (isset($_POST['login'])) {
 
         header("Location: ../admin/index.php");
     } else {
-        $_SESSION['login_message'] =  "Wrong username or password. Try again";
+        $_SESSION['login_message'] =  "<h5 class='alert alert-danger'>Wrong username or password. Try again</h5>";
         header("Location: ../index.php");
     }
 }

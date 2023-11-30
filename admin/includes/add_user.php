@@ -28,10 +28,7 @@ if (isset($_POST['add_user'])) {
 
     checkQuery($add_user_query);
 
-    echo "User Created: " . " " . "<a href='users.php'>View Users</a> ";
-    $_SESSION['message'] = "User Added!";
-
-    header("Location:users.php");
+    echo "<h4 class='alert alert-success'><strong>User created</strong><a href='../users.php'></a></h4>";
 }
 
 

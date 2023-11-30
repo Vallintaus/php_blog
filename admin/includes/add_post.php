@@ -28,7 +28,7 @@ if (isset($_POST['create_post'])) {
 
     $post_id = mysqli_insert_id($connection);
 
-    echo "<h2 class='bg-success text-center '>Post created <a href='../post.php?p_id={$post_id}'><br>View post</a></h2>";
+    echo "<h4 class='alert alert-success'><strong>Post created</strong><a href='../post.php?p_id={$post_id}'><br>View post</a></h4>";
 
 
 
