@@ -37,6 +37,6 @@ function loadUsersOnline() {
 // LOADING SCREEN -- not working
 setInterval(function () {
   loadUsersOnline();
-}, 500);
+}, 1000);
 
 loadUsersOnline();

@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <?php session_start(); ?>
 <?php include "includes/db.php"; ?>
 <?php include "includes/functions.php"; ?>
@@ -13,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Mitähän paskaa tänään syötäisiin?</title>
+    <title>Mitä paskaa tänään syötäisiin?</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">

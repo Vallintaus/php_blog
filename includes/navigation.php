@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">Mitähän paskaa tänään syötäisiin?</a>
+            <a class="navbar-brand" href="index.php">Mitä paskaa tänään syötäisiin?</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -46,11 +46,8 @@
                             // }
 
                             $(document).ready(function() {
-                                // Click event for the logout link
                                 $("#logoutLink").on("click", function(e) {
-                                    e.preventDefault(); // Prevent the default action (i.e., navigating to the href)
-
-                                    // Set dynamic content for logout action
+                                    e.preventDefault();
                                     $("#myModal .modal-body").html("<h3>Are you sure you want to log out?</h3>");
                                     $("#myModal .modal-footer").html('<button type="button" class="btn btn-danger" id="logoutButton">Logout</button>' +
                                         '<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>');
@@ -58,18 +55,14 @@
                                     $("#myModal").modal("show");
                                 });
 
-                                // Click event for the logout button within the modal
                                 $("#myModal").on("click", "#logoutButton", function() {
-                                    // Perform the logout action
                                     window.location.href = 'includes/logout.php';
                                 });
 
-                                // Optional: Close modal if cancel button is clicked
                                 $("#myModal .btn-default").on("click", function() {
                                     $("#myModal").modal("hide");
                                 });
 
-                                // Optional: Close modal if close button is clicked
                                 $("#myModal .close").on("click", function() {
                                     $("#myModal").modal("hide");
                                 });

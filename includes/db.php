@@ -10,7 +10,35 @@ foreach ($db as $key => $value) {
 }
 
 
-$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+class DbConnectionPool
+{
+    private static $connections = [];
+
+    public static function getConnection()
+    {
+        if (empty(self::$connections)) {
+            $connection = mysqli_connect('p:' . DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            if (!$connection) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+            self::$connections[] = $connection;
+        }
+
+        return array_pop(self::$connections);
+    }
+
+    public static function releaseConnection($connection)
+    {
+        self::$connections[] = $connection;
+    }
+}
+
+// To use the connection pool:
+$connection = DbConnectionPool::getConnection();
+
+// ... perform database operations ...
+
+DbConnectionPool::releaseConnection($connection);
 
 if (!$connection) {
 
