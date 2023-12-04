@@ -35,14 +35,14 @@ if (isset($_POST['checkBoxArray'])) {
 
                 // Clone
                 while ($row = mysqli_fetch_assoc($select_post_to_clone)) {
-                    $post_author = $row['post_author'];
-                    $post_title = $row['post_title'];
+                    $post_author =      $row['post_author'];
+                    $post_title =       $row['post_title'];
                     $post_category_id = $row['post_category_id'];
-                    $post_status = $row['post_status'];
-                    $post_image = $row['post_image'];
-                    $post_tags = $row['post_tags'];
-                    $post_content = $row['post_content'];
-                    $post_date = $row['post_date'];
+                    $post_status =      $row['post_status'];
+                    $post_image =       $row['post_image'];
+                    $post_tags =        $row['post_tags'];
+                    $post_content =     $row['post_content'];
+                    $post_date =        $row['post_date'];
 
                     $query = "INSERT INTO posts (post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) ";
                     $query .= "VALUES ('{$post_category_id}', '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}' )";
@@ -105,20 +105,25 @@ if (isset($_POST['checkBoxArray'])) {
 
 
             <?php
-            $query = "SELECT * FROM posts ORDER BY post_id DESC";
+
+            $query = "SELECT * FROM posts LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER BY posts.post_id DESC";
+
             $select_posts = mysqli_query($connection, $query);
 
+
+
             while ($row = mysqli_fetch_assoc($select_posts)) {
-                $post_id = $row['post_id'];
-                $post_author = $row['post_author'];
-                $post_title = $row['post_title'];
-                $post_category_id = $row['post_category_id'];
-                $post_status = $row['post_status'];
-                $post_image = $row['post_image'];
-                $post_tags = $row['post_tags'];
-                $post_comment_count = $row['post_comment_count'];
-                $post_date = $row['post_date'];
-                $post_view_count = $row['post_view_count'];
+                $post_id =              $row['post_id'];
+                $post_author =          $row['post_author'];
+                $post_title =           $row['post_title'];
+                $post_category_id =     $row['post_category_id'];
+                $post_status =          $row['post_status'];
+                $post_image =           $row['post_image'];
+                $post_tags =            $row['post_tags'];
+                $post_comment_count =   $row['post_comment_count'];
+                $post_date =            $row['post_date'];
+                $post_view_count =      $row['post_view_count'];
+                $category_title =       $row['cat_title'];
 
                 echo "<tr>";
             ?>
@@ -129,23 +134,9 @@ if (isset($_POST['checkBoxArray'])) {
                 echo "<td>{$post_id}</td>";
                 echo "<td><a href='author_posts.php?author=$post_author&p_id=$post_id'>$post_author</a></td>";
                 echo "<td><a href='../post.php?p_id={$post_id}'>{$post_title}</a></td>";
-
-
-                $query = "SELECT * FROM categories WHERE cat_id = $post_category_id ";
-                $select_categories_id = mysqli_query($connection, $query);
-
-                while ($row = mysqli_fetch_assoc($select_categories_id)) {
-                    $cat_id = $row['cat_id'];
-                    $cat_title = $row['cat_title'];
-
-
-                    echo "<td>{$cat_title}</td>";
-                }
-
-
+                echo "<td>{$category_title}</td>";
                 echo "<td>$post_status</td>";
                 echo "<td><img width='100' src='../images/$post_image' alt='image'></td>";
-
                 echo "<td>$post_tags</td>";
 
 
@@ -166,7 +157,7 @@ if (isset($_POST['checkBoxArray'])) {
                 echo "<td>$post_view_count</td>";
                 echo "<td>$post_date</td>";
                 echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>";
-                echo "<td><a href='javascript:void(0)' class='delete-link' data-post-id='{$post_id}'>Delete modal</a></td>";
+                echo "<td><a href='javascript:void(0)' class='delete-link' data-post-id='{$post_id}'>Delete</a></td>";
                 echo "</tr>";
             }
             ?>

@@ -69,7 +69,7 @@ function find_all_categories()
     }
 }
 
-
+// DELETE CATEGORY
 function delete_category()
 {
     global $connection;
@@ -86,6 +86,7 @@ function delete_category()
 }
 
 
+// REDIRECT
 function redirect($location)
 {
     return header("Location: ", $location);
@@ -130,3 +131,75 @@ function users_online()
 }
 
 users_online();
+
+
+
+// COUNT ROWS ON TABLE
+
+function recordCount($table)
+{
+    global $connection;
+
+    $query = "SELECT * FROM " . $table;
+    $select_all_from_table = mysqli_query($connection, $query);
+
+    $result = mysqli_num_rows($select_all_from_table);
+
+    checkQuery($result);
+
+    return $result;
+}
+
+
+
+// SELECT ALL FROM TABLE WHERE COLUMN = STATUS
+
+function checkStatus($table, $column, $status)
+{
+    global $connection;
+
+    $query = "SELECT * FROM $table WHERE $column = '$status' ";
+    $result = mysqli_query($connection, $query);
+    checkQuery($result);
+
+    return mysqli_num_rows($result);
+}
+
+
+
+
+function is_admin($username = "")
+{
+    global $connection;
+
+    $query = "SELECT user_role FROM users WHERE username = '$username'";
+    $result = mysqli_query($connection, $query);
+
+    checkQuery($result);
+
+    $row = mysqli_fetch_array($result);
+
+    if ($row['user_role'] == 'admin') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+
+function username_exist($username)
+{
+    global $connection;
+
+    $query = "SELECT username FROM users WHERE username = '$username' ";
+    $result = mysqli_query($connection, $query);
+    checkQuery($result);
+
+    if (mysqli_num_rows($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}

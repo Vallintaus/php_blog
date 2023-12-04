@@ -1,50 +1,44 @@
 <?php include "includes/header.php"; ?>
 
-
 <?php
 if (isset($_POST['submit'])) {
 
     $username = escape($_POST['username']);
     $email = escape($_POST['email']);
     $password = escape($_POST['password']);
+    $confirmed_password = escape($_POST['confirmed_password']);
 
-    if (!empty($username) && !empty($email) && !empty($password)) {
+    if (!username_exist($username)) {
 
-        $username = mysqli_real_escape_string($connection, $username);
-        $email = mysqli_real_escape_string($connection, $email);
-        $password = mysqli_real_escape_string($connection, $password);
+        if (!empty($username) && !empty($email) && !empty($password)) {
+            if ($password === $confirmed_password) {
 
-        $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
-
-
-
-
-
-        // $query = "SELECT randSalt FROM users ";
-        // $select_randSald_query = mysqli_query($connection, $query);
+                $username = mysqli_real_escape_string($connection, $username);
+                $email = mysqli_real_escape_string($connection, $email);
+                $password = mysqli_real_escape_string($connection, $password);
 
 
-        // if (!$select_randSald_query) {
-        //     die("QUERY FAILED" . mysqli_error($connection));
-        // }
-
-        // $row = mysqli_fetch_array($select_randSald_query);
-        // $salt = $row['randSalt'];
-
-        // $password = crypt($password, $salt);
+                $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
 
 
-        $query = "INSERT INTO users (username, user_email, user_password, user_role, user_firstname, user_lastname, user_image) ";
-        $query .= "VALUES('{$username}', '{$email}', '{$password}', 'user', '', '', '')";
-        $register_user_query = mysqli_query($connection, $query);
 
-        $message = "<h4 class='alert alert-success'><strong>User created</strong></a></h4>";
+                $query = "INSERT INTO users (username, user_email, user_password, user_role, user_firstname, user_lastname, user_image) ";
+                $query .= "VALUES('{$username}', '{$email}', '{$password}', 'user', '', '', '')";
+                $register_user_query = mysqli_query($connection, $query);
 
-        if (!$register_user_query) {
-            die("QUERY FAILED" . mysqli_error($connection) . ' ' . mysqli_errno($connection));
+                $message = "<h4 class='alert alert-success'><strong>User created</strong></a></h4>";
+
+                if (!$register_user_query) {
+                    die("QUERY FAILED" . mysqli_error($connection) . ' ' . mysqli_errno($connection));
+                }
+            } else {
+                $message = "<h5 class='alert alert-danger'>Passwords doesn't match</h5>";
+            }
+        } else {
+            $message = "<h5 class='alert alert-danger'>Fields cannot be empty</h5>";
         }
     } else {
-        $message = "<h5 class='alert alert-danger'>Fields cannot be empty</h5>";
+        $message = "<h5 class='alert alert-danger'>Username already exist</h5>";
     }
 } else {
     $message = "";
@@ -79,6 +73,10 @@ if (isset($_POST['submit'])) {
                             <div class="form-group">
                                 <label for="password" class="sr-only">Password</label>
                                 <input type="password" name="password" id="key" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="sr-only">Confirm password</label>
+                                <input type="password" name="confirmed_password" id="key" class="form-control" placeholder="Confirm password">
                             </div>
 
                             <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">

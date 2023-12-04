@@ -16,7 +16,7 @@
         <!-- /.input-group -->
     </div>
 
-
+    <!-- LOGIN FORM -->
     <?php
     if (!isset($_SESSION['username'])) {
     ?>
@@ -28,7 +28,7 @@
                     <?php
                     if (isset($_SESSION['login_message'])) {
                         echo '<p>' . $_SESSION['login_message'] . '</p>';
-                        unset($_SESSION['login_message']); // Clear the message after displaying it
+                        unset($_SESSION['login_message']);
                     }
                     ?>
                     <input name="username" type="text" class="form-control" placeholder="Username">

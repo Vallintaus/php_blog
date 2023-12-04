@@ -22,12 +22,33 @@
                 while ($row = mysqli_fetch_assoc($select_all_categories_query)) {
                     $cat_title = $row['cat_title'];
                     $cat_id = $row['cat_id'];
-                    echo "<li><a href='category.php?category=$cat_id'> {$cat_title} </a></li>";
+
+                    $category_class = "";
+
+                    $registration_class = "";
+
+                    $contact_class = "";
+
+                    $pageName = basename($_SERVER['PHP_SELF']);
+
+                    $registration = 'registration.php';
+
+                    $contact = 'contact.php';
+
+                    if (isset($_GET['category']) && $_GET['category'] == $cat_id) {
+
+                        $category_class = "active";
+                    } else if ($pageName == $registration) {
+                        $registration_class = 'active';
+                    } else if ($pageName == $contact) {
+                        $contact_class = 'active';
+                    }
+                    echo "<li class='{$category_class}'><a href='category.php?category={$cat_id}'> {$cat_title} </a></li>";
                 }
                 ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href='contact.php'>Contact</a></li>
+                <li class='<?php echo $contact_class; ?>'><a href='contact.php'>Contact</a></li>
 
                 <?php
                 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
@@ -71,7 +92,7 @@
                     </li>
                 <?php
                 } else {
-                    echo "<li><a href='registration.php'>Registration</a></li>";
+                    echo "<li class='$registration_class'><a href='registration.php'>Registration</a></li>";
                 }
 
                 if (isset($_SESSION['user_role']) && isset($_GET['p_id'])) {
