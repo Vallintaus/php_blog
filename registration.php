@@ -1,7 +1,7 @@
 <?php include "includes/header.php"; ?>
 
 <?php
-if (isset($_POST['submit'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
@@ -40,10 +40,15 @@ if (isset($_POST['submit'])) {
     }
 
     foreach ($error as $key => $value) {
-        if (empty($key)) {
-            register_new_user($username, $password, $email, $confirmed_password);
-            login_user($username, $password);
+        if (empty($value)) {
+            unset($error[$key]);
         }
+    }
+    if (empty($error)) {
+
+        register_new_user($username, $password, $email, $confirmed_password);
+        login_user($username, $password);
+        redirect("./index.php");
     }
 }
 
@@ -97,7 +102,7 @@ if (isset($_POST['submit'])) {
                                 <?php endif; ?>
                             </div>
 
-                            <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
+                            <input type="submit" name="register" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
                         </form>
 
                     </div>

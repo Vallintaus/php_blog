@@ -22,7 +22,7 @@ function checkQuery($result)
 // REDIRECT
 function redirect($location)
 {
-    return header("Location: ", $location);
+    return header("Location: " . $location);
 }
 
 
@@ -233,12 +233,6 @@ function register_new_user($username, $password, $email, $confirmed_password)
     $password = escape($_POST['password']);
     $confirmed_password = escape($_POST['confirmed_password']);
 
-
-    $username = escape($username);
-    $email = escape($email);
-    $password = escape($password);
-
-
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
 
 
@@ -282,16 +276,15 @@ function login_user($username, $password)
 
     // hashed password
     if (password_verify($password, $db_password)) {
+        if (session_status() === PHP_SESSION_NONE) session_start();
 
         $_SESSION['username'] = $db_username;
         $_SESSION['user_firstname'] = $db_user_firstname;
         $_SESSION['user_lastname'] = $db_user_lastname;
         $_SESSION['user_role'] = $db_user_role;
         $_SESSION['user_email'] = $db_user_email;
-
-        redirect("./index.php");
     } else {
         $_SESSION['login_message'] =  "<h5 class='alert alert-danger'>Wrong username or password. Try again</h5>";
-        redirect("./index.php");
+        redirect("../index.php");
     }
 }
