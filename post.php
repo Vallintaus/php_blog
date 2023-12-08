@@ -2,6 +2,48 @@
 <?php include "includes/navigation.php" ?>
 
 
+<?php
+if (isset($_POST['liked'])) {
+    $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
+
+    // SELECT POST
+    $query = $query = "SELECT * FROM posts WHERE post_id = $post_id";
+    $select_post_query = mysqli_query($connection, $query);
+    $post_result = mysqli_fetch_array($select_post_query);
+    $likes = $post_result['post_likes'];
+
+    //UPDATE LIKES - INCREMENT
+    mysqli_query($connection, "UPDATE posts SET post_likes = $likes+1 WHERE post_id = $post_id");
+
+    // CREATE LIKES FOR POST
+    mysqli_query($connection, "INSERT INTO likes(user_id, post_id) VALUES($user_id, $post_id)");
+    exit();
+}
+
+if (isset($_POST['unliked'])) {
+
+
+    $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
+
+    // SELECT POST
+    $query = $query = "SELECT * FROM posts WHERE post_id = $post_id";
+    $select_post_query = mysqli_query($connection, $query);
+    $post_result = mysqli_fetch_array($select_post_query);
+    $likes = $post_result['post_likes'];
+
+    //UPDATE LIKES - DECREMENT
+    mysqli_query($connection, "UPDATE posts SET post_likes = $likes-1 WHERE post_id = $post_id");
+
+    // DELETE LIKES
+    mysqli_query($connection, "DELETE FROM likes WHERE post_id = $post_id AND user_id = $user_id");
+    exit();
+}
+
+?>
+
+
 
 <!-- Page Content -->
 <div class="container">
@@ -37,10 +79,6 @@
 
             ?>
 
-                    <h1 class="page-header">
-                        Page Heading
-                        <small>Secondary Text</small>
-                    </h1>
 
                     <!-- Blog Post -->
                     <h2>
@@ -58,7 +96,11 @@
                     <hr>
                     <p><?php echo $post_content ?></p>
 
-                    <hr>
+                    <div class="row">
+                        <p class="pull-right" style="font-size: 2rem;">Likes: <?php getPostLikes($the_post_id); ?></p>
+                    </div>
+                    <div class=" clearfix">
+                    </div>
 
             <?php
                 }
@@ -74,7 +116,12 @@
 
             if (isset($_SESSION['username'])) {
 
-
+            ?>
+                <hr>
+                <div class="row">
+                    <p class="pull-right" style="font-size: 2rem;"><a class="<?php echo userLikedThisPost($the_post_id) ? 'unlike' : 'like'; ?>" href=""><span class="glyphicon glyphicon-thumbs-up"></span> <?php echo userLikedThisPost($the_post_id) ? ' Unlike' : ' Like'; ?></a></p>
+                </div>
+                <?php
 
 
 
@@ -109,7 +156,7 @@
 
 
 
-            ?>
+                ?>
 
 
                 <!-- Comments Form -->
@@ -132,7 +179,7 @@
                 <hr>
 
             <?php } else {
-                echo "Login to leave a comment.";
+                echo "Login to like and leave a comment.";
             } ?>
 
 
@@ -186,3 +233,38 @@
     </div>
 
     <?php include "includes/footer.php" ?>
+
+    <script>
+        $(document).ready(function() {
+            let post_id = <?php echo $the_post_id; ?>;
+            let user_id = <?php echo loggedInUserId(); ?>
+
+            // LIKE
+            $('.like').click(function() {
+                $.ajax({
+                    url: "/cms/post.php?p_id=<?php echo $the_post_id; ?>",
+                    type: 'post',
+                    data: {
+                        'liked': 1,
+                        'post_id': post_id,
+                        'user_id': user_id
+                    }
+                });
+            })
+
+            // UNLIKE
+            $('.unlike').click(function() {
+                if (user_id !== null)
+                    $.ajax({
+                        url: "/cms/post.php?p_id=<?php echo $the_post_id; ?>",
+                        type: 'post',
+                        data: {
+                            'unliked': 1,
+                            'post_id': post_id,
+                            'user_id': user_id
+                        }
+                    });
+            })
+
+        });
+    </script>

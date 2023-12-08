@@ -1,5 +1,11 @@
 <?php
 
+function query($query)
+{
+    global $connection;
+    return mysqli_query($connection, $query);
+}
+
 function escape($string)
 {
     global $connection;
@@ -287,4 +293,42 @@ function login_user($username, $password)
         $_SESSION['login_message'] =  "<h5 class='alert alert-danger'>Wrong username or password. Try again</h5>";
         redirect("../index.php");
     }
+}
+
+
+
+
+
+function loggedInUserId()
+{
+    if (isset($_SESSION['username'])) {
+        $result = query("SELECT user_id FROM users WHERE username = '" . $_SESSION['username'] . "'");
+        checkQuery($result);
+        $user = mysqli_fetch_array($result);
+
+        return mysqli_num_rows($result) >= 1 ? $user['user_id'] : false;
+    }
+}
+
+
+
+function userLikedThisPost($post_id)
+{
+    $user_id = loggedInUserId();
+
+    if ($user_id) {
+        $result = query("SELECT * FROM likes WHERE user_id = {$user_id} AND post_id = {$post_id}");
+        checkQuery($result);
+
+        return mysqli_num_rows($result) >= 1 ? true : false;
+    }
+}
+
+
+function getPostLikes($post_id)
+{
+    $result = query("SELECT * FROM likes WHERE post_id = {$post_id}");
+    checkQuery($result);
+
+    echo mysqli_num_rows($result);
 }
