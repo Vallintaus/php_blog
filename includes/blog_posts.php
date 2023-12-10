@@ -43,10 +43,6 @@ if ($count < 1) {
 
 ?>
 
-        <h1 class="page-header">
-            Page Heading
-            <small>Secondary Text</small>
-        </h1>
 
         <!-- Blog Post -->
         <h2>

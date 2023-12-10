@@ -10,6 +10,10 @@
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
+            <h1 class="page-header">
+                Posts
+            </h1>
+
 
             <?php include "includes/blog_posts.php"; ?>
 

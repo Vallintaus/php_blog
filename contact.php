@@ -11,7 +11,7 @@
 
 if (isset($_POST['submit'])) {
 
-    $to = "jusa.vallintaus@hotmail.com";
+    $to = "example@email.com";
     $subject = wordwrap($_POST['subject'], 70);
     $message = wordwrap($_POST['message'], 70);
     $header = "FROM: " . $_POST['email'];

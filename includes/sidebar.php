@@ -93,6 +93,6 @@
     </div>
 
     <!-- Side Widget Well -->
-    <?php include "sidebar_widget.php" ?>
+    <!-- <?php include "sidebar_widget.php" ?> -->
 
 </div>

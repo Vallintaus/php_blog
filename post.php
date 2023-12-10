@@ -242,7 +242,7 @@ if (isset($_POST['unliked'])) {
             // LIKE
             $('.like').click(function() {
                 $.ajax({
-                    url: "/cms/post.php?p_id=<?php echo $the_post_id; ?>",
+                    url: "post.php?p_id=<?php echo $the_post_id; ?>",
                     type: 'post',
                     data: {
                         'liked': 1,
@@ -254,16 +254,15 @@ if (isset($_POST['unliked'])) {
 
             // UNLIKE
             $('.unlike').click(function() {
-                if (user_id !== null)
-                    $.ajax({
-                        url: "/cms/post.php?p_id=<?php echo $the_post_id; ?>",
-                        type: 'post',
-                        data: {
-                            'unliked': 1,
-                            'post_id': post_id,
-                            'user_id': user_id
-                        }
-                    });
+                $.ajax({
+                    url: "post.php?p_id=<?php echo $the_post_id; ?>",
+                    type: 'post',
+                    data: {
+                        'unliked': 1,
+                        'post_id': post_id,
+                        'user_id': user_id
+                    }
+                });
             })
 
         });
