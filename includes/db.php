@@ -1,5 +1,9 @@
 <?php
 
+// default admin user
+//  username: test
+// password: test
+
 $db['db_host'] = "localhost";
 $db['db_user'] = "root";
 $db['db_pass'] = "";
